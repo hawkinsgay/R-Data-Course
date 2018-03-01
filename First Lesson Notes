@@ -1,0 +1,106 @@
+# First Lesson Notes (Introduction -> Vectors)
+
+#################################################################################################
+#         HAWKINS GAY                                                                           #
+#         R Practice                                                                            #
+#         R Data Course from Varience Explained                                                 #
+#################################################################################################
+
+# This is how to find out which working directory you are in #
+getwd()
+
+# This will allow you to setup a new working directory #
+setwd("~/documents/R_Data Practice")
+
+# This command allows us to see what, if any, current objects are in the current environment #
+ls()
+
+# To delete an object, use the following command #
+  # first I create object x #
+  x=4
+  # now I am removing this object #
+  rm(x)
+
+# To delete every object from the current environment, use the following command #
+rm(list=ls())
+
+# Variables #
+my.number=42  #this is a numerical variable#
+print(my.number) #this allows us to print the variable#
+
+chv1="hello" #these are character variables#
+chv2="world"
+chv3="hello maddie"
+
+# Simple arrythmatic #
+3+4
+
+# You can also asign results to a variable #
+x = 3+4
+
+log(x) #this takes the log of our newly created value#
+
+y = log(x) #this assigns that log to a new variable "y"#
+
+# Vectors #
+# we can create vectors by using functions, c is the vector fucntion, "c()" #
+vector.1 = c(1, 5.5, 1e2)
+vector.2 = c(0.14, 0, -2)
+v3 = c(vector.1, vector.2) # this combines the vectors into a third vector with 6 variables #
+
+# to recall specific parts of a vector, you must use a square bracket [ ] #
+v3[2] # this returns the second element of the vector #
+v3[c(2,3)] # this returns second and third element of the vector, but you must again use the fxn c() #
+v3[c(2:6)] # this returns second through sixth elements, again using the vector fxn #
+v3_sub=v3[c(3:5)] #this creates a new sub-vector with the third through fith elements #
+
+# you can also apply simple math operations and functions to variable elements #
+2+vector.1 # note that this operation applies +2 to all elements of the vector #
+vector.1+2
+sin(vector.1) 
+
+# you can also apply the arrythmatic to a sub-set of elements in the vector #
+2+vector.1[2]
+sin(vector.1[2])
+
+# if you add or multiply vectors of the same length, it will apply this operation to
+# corresponding elements of that vector
+vector.1+vector.2
+vector.1*vector.2
+
+# to check the length of the vector, use length fxn #
+length(vector.1)
+
+# to verify the class of a variable, use the function class #
+class(vector.1)
+class (chv1)
+
+# numbers can be stored as character variables if they are entered with " " #
+v4=c("10", "42")
+class(v4)
+
+# but now if we want to change this character vector to numeric, we use the following 
+# operation, and vice-versa: 
+v4=as.numeric(v4)
+v4=as.character(v4)
+
+# use summary to get great descriptive statistics on a variable #
+summary(v3)
+
+# depending on the class, you get different description results #
+summary(chv3)
+
+# there are other specific summary statistics you can get on request as well #
+mean(v3)
+var(v3)
+quantile(v3)
+# fucntions include median, sd, max and min #
+
+# you can look at names of a variable with the names function #
+names(vector.1) # it will return NULL if there are currently no names #
+# names can be assigned with the the name function #
+names(vector.1) = c("cat", "dog", "fox")
+
+# check #
+names(vector.1)
+vector.1
