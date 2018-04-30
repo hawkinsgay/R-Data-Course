@@ -1,0 +1,135 @@
+
+#################################################################################################
+#         HAWKINS GAY                                                                           #
+#         R Practice                                                                            #
+#         R Data Course from Varience Explained                                                 #
+#################################################################################################
+
+# viewing the curren working drive and then setting up a location for saving #
+getwd()
+setwd("~/R")
+
+# Creating a sequence of numbers #
+
+#this creates a sequence of number form 1-6#
+1:6 
+
+#this is a more complicated sequence generation#
+seq(from = 1, to = 12, by = 4) 
+
+# Using the Matrix Fxn #
+ma = matrix(1:6, nrow = 3, ncol = 2)
+ma
+
+mb = matrix(7:9, nrow = 3, ncol = 1)
+mb
+
+# Rbind and Cbind stand for row bind and column bing; both can be used to create matricies #
+rbind(ma, c(100,200)) #this combines the matrix ma w/ my created vector c(100,200) #
+
+m = cbind(ma,mb)
+m
+
+# Using square brackets allows us to pull out specific parts of the matrix #
+m[1,3]
+
+m[1,1:3]
+m[1, ] # note that leaving the second charachter in the bracket blank pulls the entire row #
+
+# getting mulitple columns from a square bracket command #
+m[ ,1:2]
+
+# how to ask R what the number of rows and columns there are in a matrix #
+nrow(m) # number of rows in the matrix #
+ncol(m) # number of columns in the matrix #
+dim(m) # the overall dimensions of the matrix #
+
+# t() is the transpose function #
+n = t(m)
+n # n is now the transposed matrix of m #
+
+# the diag() is the diagonal function and allows you to view the numbers of a matrix diagonal #
+diag(m)
+diag(n)
+
+# how to create an identitiy matrix with w/ 3 rows and columns #
+diag(3)
+
+# how to create a diagonal matrix w/ a specific vector in the diagonal #
+diag(c(1,2,3))
+
+# simple arithmatic in the matrix #
+m+2 # this adds two to all values in the matrix #
+m*2 # this multiplies all values in the matrix by 2 #
+
+m2 = matrix(21:32, nrow = 3)
+m2
+
+m3 = m %*% m2 # %*% is the matrix x matrix function #
+m3
+
+# Remember that Matricies can only store one type of data, charachter or numberic #
+# To store different types of data together, we need to use lists or data frames #
+
+chvar = "world"
+chvar
+
+value = 2
+value
+
+list(value, chvar, m) #this creates a list which a value, charachter, and matrix #
+
+# we can add names to each component of the list, in this way #
+my.list = list(value=value, chrachter=chvar, matrix=m)
+my.list
+
+# slice the list #
+my.list[1]
+my.list[2]
+
+class(my.list[1]) # when you call a portion of a list, it remains a list form #
+
+# to change this, use double brackets #
+my.list[[1]]
+class(my.list[[1]]) # now the class has changed to "numeric" #
+
+# you can also extract a member of the list by using the $ command #
+names(my.list)
+my.list$matrix
+class(my.list$matrix) # this pulls the specific content, doesnt just disply element of list #
+
+#R comes with data frames for practice - we will use mtcars#
+#data frames are just groups of vectors of a certain type, combined to look like a matrix#
+#however, because they are groups of different vectors, they can have different classes#
+
+#the Data() function pulls in data frames (or datasets)#
+data("mtcars")
+mtcars
+
+class(mtcars) # this shows me that it is a data frame #
+
+# how to pull up a help file #
+?mtcars
+View(mtcars) # this allows us to view in an excel type format, must use capital V!! #
+
+# head() function allows you to look at the first 6 rows #
+head(mtcars)
+tail(mtcars) 
+
+# we can also apply a summary function to a data frame, which will give the summary 
+# statistics of each vector in the data frame #
+
+summary(mtcars)
+
+#to see the columns of vectors contained in mtcars, use the names() function #
+names(mtcars)
+
+#you can then use that info to retrieve a specific column of info#
+mtcars$mpg
+
+#we could also accomplis this same thing in the following way#
+mtcars[ ,"mpg"]
+mtcars[ ,1]        
+
+#you can also pull out the first three rows of mtcars with the [ ] function #
+mtcars[1:3, ]
