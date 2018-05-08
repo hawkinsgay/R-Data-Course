@@ -1,0 +1,30 @@
+#################################################################################################
+#         HAWKINS GAY                                                                           #
+#         R Practice                                                                            #
+#         R Data Course from Varience Explained                                                 #
+#################################################################################################
+
+# viewing the curren working drive and then setting up a location for saving #
+getwd()
+setwd("~/R")
+
+# creating logical values and vectors
+y = c(TRUE, FALSE, TRUE)
+print(y)
+class(y)
+# true and false capitalized are treated speically by R
+
+print(mtcars)
+# use logical data to cut data.frames
+
+mtcars$mpg > 20
+v = mtcars$mpg > 20
+print(v)
+
+efficient_cars = mtcars[v,] 
+# the above operation created a data.frame with only cars that have MPG values > 20
+
+#you can also combine operations disect data.frames further
+efficent_auto = mtcars[mtcars$mpg>20 & mtcars$am==0, ]
+print(efficent_auto) #verify that created only cars with MPG > 20 and AM = 0
+
