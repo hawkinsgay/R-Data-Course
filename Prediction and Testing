@@ -1,0 +1,76 @@
+#################################################################################################
+#         HAWKINS GAY                                                                           #
+#         R Practice                                                                            #
+#         R Data Course from Varience Explained                                                 #
+#################################################################################################
+
+# viewing the curren working drive and then setting up a location for saving #
+getwd()
+setwd("~/R")
+
+#Statistical Testing#
+#comparing two samples - working with mtcars#
+data("mtcars")
+View(mtcars)
+help(mtcars)
+mtcars$mpg #this extracts the vector of each cars MPG, that colum becomes a vector #
+mtcars$am #extracts the vector of the automatic vs manual shift #
+library(ggplot2)
+ggplot(mtcars, aes(x=factor(am), y=mpg)) + geom_boxplot() #visual comparison w/ boxplot#
+
+#using the students t-test, allows us to examine if two variables differ between categories#
+t.test(mpg~am, mtcars) #gives us p-value and CI#
+
+#how to save the t-test into its own variable#
+tt= t.test(mpg~am, mtcars) #assigns the result of the t-test to the variable tt#
+tt #this allows us to view the entire test#
+tt$p.value #this allows us to see the p-value#
+tt$conf.int #this allows us to see the CI#
+
+#CORRELATION#
+#testing whether two numeric variables (not categories) are related#
+#i.e. does a cars weight determine its feul efficiency#
+#to look at two continuous variables we have to do a scatter plot - or correlation#
+ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point()
+#is it possible that this trend occured by wieght, we need a test for this#
+#comparing two vectors here#
+mtcars$mpg
+mtcars$wt
+#how to do a correlation test#
+cor.test(mtcars$mpg, mtcars$wt)
+ct=cor.test(mtcars$mpg, mtcars$wt)
+#extracting values#
+ct$p.value
+ct$estimate  
+ct$conf.int
+
+#LINEAR REGRESSION#
+#Turns the correlation noted above into a prediction#
+#what is the MPG if a 4.5lb car#
+fit=lm(mpg~wt, mtcars) #lm = linear model#
+summary(fit)
+coef(summary(fit)) #creates a matrix of the linear model output#
+co = coef(summary(fit))
+co[ ,1] #gives us the estimate#
+co[ ,4] #gives us the p-value#
+#now we can use the model to predict mpg based on weight with the predict()#
+predict(fit)
+37.2851 + (-5.3445) * 4.5 #this predicted the MPG of a 4.5 lb car#
+#use a shortcut with predict#
+newcar=data.frame(wt=4.5)
+predict(fit, newcar)
+
+#MULTIPLE LINEAR MODEL#
+ggplot(mtcars, aes(x=wt, y=mpg, color=cyl, size=disp)) + geom_point()
+#which predictors are significant and which are not#
+#use multiple linear regression#
+mfit= lm(mpg ~ wt + disp + cyl, mtcars)
+summary(mfit)
+mco=coef(summary(mfit)) #creating a matrix#
+mco[ ,1]
+mco[ ,4]
+
+#predicting the mpg based on a new car#
+newcar=data.frame(wt=4.5, disp=300, cyl=8)
+predict(mfit, newcar) #produces a predicted mpg based on the hypothetical new car we created#
+
