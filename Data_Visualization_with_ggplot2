@@ -1,0 +1,114 @@
+#################################################################################################
+#         HAWKINS GAY                                                                           #
+#         R Practice                                                                            #
+#         R Data Course from Varience Explained                                                 #
+#################################################################################################
+
+getwd()
+setwd("~/R")
+
+#You should never run a statistical data analysis without looking at the data graphically
+#Intro to ggplot2
+
+install.packages(ggplot2)
+
+library("ggplot2") #always need to load this library if using ggplot2
+data(diamonds) #diamonds is a dataset that is autoloaded in the ggplot package
+View(diamonds)
+
+# Looking Scatter Plots - looking at relationship between variables #
+# Asthetics are important, we want them to look nice #
+
+# Putting carot on the X-axis and price on the Y-axis #
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point() #geom_point is the scatter plot call #
+
+# adding additional aesthetics #
+ggplot(diamonds, aes(x=carat, y=price, color=clarity, shape=cut)) + geom_point() 
+
+
+# adding smoothing line to see the general trends that we are observing # 
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point() + geom_smooth() # grey area = CI #
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point() + geom_smooth(se=FALSE) # gets rid of CI #
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point() + geom_smooth(method=lm) #makes a linear plot #
+
+# compare and contrast multiple trends with smoothing line and modifier #
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + geom_point() + geom_smooth()
+# you can show the the smoothing line without the scatter plot by getting rid of geom_point #
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + geom_smooth()
+
+# Instead of one big scatter plot, you can also create facets (facetting - multiple plots) #
+
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + facet_wrap(~clarity)
+
+# furthe faceting with facet_grid #
+ggplot(diamonds, aes(x=carat, y=price, color=cut)) + geom_point() + facet_grid(color~clarity)
+
+# How to change TITILE, and axis LABLES - adding to end of code line #
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + geom_point() + ggtitle("My Scatter Plot") + xlab("Weight (carat)") + ylab("Price ($)")
+
+# How to look at limits in the axis - using xlim and ylim at the end of the code #
+ggplot(diamonds, aes(x=carat, y=price, color=clarity)) + geom_point() + ggtitle("My Scatter Plot") + xlab("Weight (carat)") + ylab("Price ($)") + xlim(0,2)
+
+# to change the scale of the axis to log, use the following at end of code: scale_y_log10() #
+
+# Histogram and Density Plots #
+# histograms are used to look at one demnsion of data and look at distribution 
+ggplot(diamonds, aes(x=price)) + geom_histogram()
+#changing the width of the bin - with binwidth #
+ggplot(diamonds, aes(x=price)) + geom_histogram(binwidth = 200)
+
+# you can also facet histogram into multiple sub-plots with facet_wrap #
+ggplot(diamonds, aes(x=price)) + geom_histogram() + facet_wrap(~clarity)
+#becasue there are different numbers of diamonds in each category need to free the Y scale #
+ggplot(diamonds, aes(x=price)) + geom_histogram() + facet_wrap(~clarity, scale="free_y")
+
+# to make a stacked histogram based on the clarity you can add the fill asethic #
+ggplot(diamonds, aes(x=price, fill=clarity)) + geom_histogram(binwidth = 200) 
+ggplot(diamonds, aes(x=price, fill=cut)) + geom_histogram() + facet_wrap(~clarity, scale="free_y")
+
+# can also look at density curves with geom_density #
+ggplot(diamonds, aes(x=price)) + geom_density() 
+ggplot(diamonds, aes(x=price, fill=clarity)) + geom_density() 
+ggplot(diamonds, aes(x=price, color=clarity)) + geom_density() 
+
+#BOX PLOTS and VIOLIN PLOTS #
+ggplot(diamonds, aes(x=color, y=price)) + geom_boxplot()
+# because this initial test shows a large number of outliers, try putting y-axis on log scale #
+ggplot(diamonds, aes(x=color, y=price)) + geom_boxplot() + scale_y_log10()
+
+#boxplots dont work well for distributions that arent normal - bad for bimodal #
+#can instead look at violin plots#
+ggplot(diamonds, aes(x=color, y=price)) + geom_violin() + scale_y_log10()
+
+#adding facets to violin and box plots#
+ggplot(diamonds, aes(x=color, y=price)) + geom_violin() + facet_wrap(~clarity) + scale_y_log10() 
+
+#you dont always have to start from a data.frame - you can use qplot() to plot single vectors #
+x = rnorm(1000) #this has created a vector of 1,000 numbers #
+qplot(x) # this allows us to plot x without creating a data.frame #
+qplot(x, binwidth=1)
+qplot(x, binwidth=1) + xlab("X Axis")
+
+#creating a second vector of y#
+y=rnorm(1000)
+qplot(x,y) #this creates a scatter plot of x by y #
+qplot(x,y) + geom_smooth()
+
+#what happens when data comes in a WIDE format #
+data("WorldPhones")
+View(WorldPhones)
+
+# how do we turn the following data in a tall format #
+#installing reshape2#
+install.packages("reshape2")
+library(reshape2)
+worldphones.m = melt(WorldPhones)
+View(worldphones.m)
+
+colnames(worldphones.m) = c("Year", "Continent", "Phones") #naming colums of data.frame #
+ggplot(worldphones.m, aes(x=Year, y=Phones, color=Continent)) +geom_point()
+#can also look at this data as lines #
+ggplot(worldphones.m, aes(x=Year, y=Phones, color=Continent)) +geom_line()
+#can also look at this on the log scale#
+ggplot(worldphones.m, aes(x=Year, y=Phones, color=Continent)) +geom_line() + scale_y_log10()
