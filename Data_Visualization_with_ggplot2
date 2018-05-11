@@ -26,6 +26,13 @@ ggplot(diamonds, aes(x=carat, y=price)) + geom_point() #geom_point is the scatte
 # adding additional aesthetics #
 ggplot(diamonds, aes(x=carat, y=price, color=clarity, shape=cut)) + geom_point() 
 
+#if I want to save the above image, I can use ggsave#
+#first I need to call the image some variable, say "image"#
+image = ggplot(diamonds, aes(x=carat, y=price, color=clarity, shape=cut)) + geom_point() 
+ggsave(filename = "diamonds.png", image) #saves png image#
+ggsave(filename = "diamonds.pdf", image) #saves pdf image#
+#read more above ggsave with help(ggsave)#
+
 
 # adding smoothing line to see the general trends that we are observing # 
 ggplot(diamonds, aes(x=carat, y=price)) + geom_point() + geom_smooth() # grey area = CI #
